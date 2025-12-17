@@ -1,56 +1,56 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
-import ScoringResults from '@/components/ScoringResults'
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import ScoringResults from "@/components/ScoringResults";
 
 interface EssayData {
-  id: string
-  taskType: string
-  module: string
-  prompt: string
-  essay: string
-  wordCount: number
-  submittedAt: string
-  result: any
+  id: string;
+  taskType: string;
+  module: string;
+  prompt: string;
+  essay: string;
+  wordCount: number;
+  submittedAt: string;
+  result: any;
 }
 
 export default function EssayDetailPage() {
-  const router = useRouter()
-  const params = useParams()
-  const { data: session, status } = useSession()
-  const [essay, setEssay] = useState<EssayData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const router = useRouter();
+  const params = useParams();
+  const { data: session, status } = useSession();
+  const [essay, setEssay] = useState<EssayData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login')
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
     }
-    
-    if (status === 'authenticated' && params?.id) {
-      fetchEssay()
+
+    if (status === "authenticated" && params?.id) {
+      fetchEssay();
     }
-  }, [status, params, router])
+  }, [status, params, router]);
 
   const fetchEssay = async () => {
     try {
-      const res = await fetch(`/api/essays/${params?.id}`)
+      const res = await fetch(`/api/essays/${params?.id}`);
       if (res.ok) {
-        const data = await res.json()
-        setEssay(data.essay)
+        const data = await res.json();
+        setEssay(data.essay);
       } else if (res.status === 404) {
-        router.push('/dashboard')
+        router.push("/dashboard");
       }
     } catch (error) {
-      console.error('Failed to fetch essay:', error)
+      console.error("Failed to fetch essay:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  if (status === 'loading' || loading) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#fdf8f3] via-[#fef5ee] to-[#fcf4ed] flex items-center justify-center">
         <div className="text-center">
@@ -58,23 +58,23 @@ export default function EssayDetailPage() {
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!essay) {
-    return null
+    return null;
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fdf8f3] via-[#fef5ee] to-[#fcf4ed]">
@@ -86,8 +86,18 @@ export default function EssayDetailPage() {
               href="/dashboard"
               className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               Back to Dashboard
             </Link>
@@ -104,21 +114,32 @@ export default function EssayDetailPage() {
         <div className="bg-white rounded-2xl border border-gray-100 academic-shadow-lg p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">
-              {essay.module === 'academic' ? 'Academic' : 'General'} - Task {essay.taskType.slice(-1)}
+              {essay.module === "academic" ? "Academic" : "General"} - Task{" "}
+              {essay.taskType.slice(-1)}
             </span>
-            <span className="text-sm text-gray-500">{essay.wordCount} words</span>
+            <span className="text-sm text-gray-500">
+              {essay.wordCount} words
+            </span>
           </div>
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">Prompt</h3>
-              <p className="text-base text-gray-900 leading-relaxed">{essay.prompt}</p>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                Prompt
+              </h3>
+              <p className="text-base text-gray-900 leading-relaxed">
+                {essay.prompt}
+              </p>
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">Your Essay</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                Your Essay
+              </h3>
               <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                <p className="text-base text-gray-900 leading-relaxed whitespace-pre-wrap">{essay.essay}</p>
+                <p className="text-base text-gray-900 leading-relaxed whitespace-pre-wrap">
+                  {essay.essay}
+                </p>
               </div>
             </div>
           </div>
@@ -127,27 +148,46 @@ export default function EssayDetailPage() {
         {/* Results */}
         {essay.result && (
           <ScoringResults
-            result={{
-              success: true,
-              data: {
-                overallBand: essay.result.overallBand,
-                criteriaScores: {
-                  taskAchievement: essay.result.taskAchievement,
-                  taskResponse: essay.result.taskAchievement,
-                  coherenceCohesion: essay.result.coherenceCohesion,
-                  lexicalResource: essay.result.lexicalResource,
-                  grammaticalRangeAccuracy: essay.result.grammaticalRange,
-                },
-                executiveSummary: essay.result.executiveSummary,
-                criteriaFeedback: essay.result.criteriaFeedback,
-                highlightedIssues: essay.result.highlightedIssues,
-                revisionPlan: essay.result.revisionPlan,
-                educatorNotes: essay.result.educatorNotes,
+            results={{
+              meta: {
+                task_type: essay.taskType as "task1" | "task2",
+                module: essay.module as "academic" | "general",
+                approx_word_count: essay.wordCount,
               },
+              scores: {
+                task_achievement_or_response: {
+                  score: essay.result.taskAchievement,
+                  rounded_band: essay.result.taskAchievement,
+                },
+                coherence_and_cohesion: {
+                  score: essay.result.coherenceCohesion,
+                  rounded_band: essay.result.coherenceCohesion,
+                },
+                lexical_resource: {
+                  score: essay.result.lexicalResource,
+                  rounded_band: essay.result.lexicalResource,
+                },
+                grammatical_range_and_accuracy: {
+                  score: essay.result.grammaticalRange,
+                  rounded_band: essay.result.grammaticalRange,
+                },
+                overall: {
+                  score: essay.result.overallBand,
+                  rounded_band: essay.result.overallBand,
+                },
+              },
+              feedback: {
+                summary_comment: essay.result.executiveSummary,
+                criterion_feedback: JSON.parse(essay.result.criteriaFeedback),
+                highlights: JSON.parse(essay.result.highlightedIssues),
+                revision_plan: JSON.parse(essay.result.revisionPlan),
+              },
+              issues: [],
+              notes_for_teacher: essay.result.educatorNotes || "",
             }}
           />
         )}
       </main>
     </div>
-  )
+  );
 }
