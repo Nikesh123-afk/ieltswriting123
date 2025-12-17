@@ -65,8 +65,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.createdAt =
+        (session.user as any).id = token.id as string;
+        (session.user as any).createdAt =
           typeof token.createdAt === "string" ? token.createdAt : undefined;
       }
       return session;
