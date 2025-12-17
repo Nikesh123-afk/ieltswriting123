@@ -254,8 +254,8 @@ export default function ProfilePage() {
             <div className="space-y-2 text-sm text-gray-600">
               <p>
                 <span className="font-medium">Account Created:</span>{" "}
-                {session.user?.createdAt
-                  ? new Date(session.user.createdAt).toLocaleDateString(
+                {(session.user as any)?.createdAt
+                  ? new Date((session.user as any).createdAt).toLocaleDateString(
                       "en-US",
                       {
                         year: "numeric",
