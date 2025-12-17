@@ -245,32 +245,6 @@ export default function ProfilePage() {
               </div>
             </form>
           </div>
-
-          {/* Account Info */}
-          <div className="border-t border-gray-200 px-8 py-6 bg-gray-50">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">
-              Account Information
-            </h3>
-            <div className="space-y-2 text-sm text-gray-600">
-              <p>
-                <span className="font-medium">Account Created:</span>{" "}
-                {(session.user as any)?.createdAt
-                  ? new Date((session.user as any).createdAt).toLocaleDateString(
-                      "en-US",
-                      {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }
-                    )
-                  : new Date().toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Quick Links */}
