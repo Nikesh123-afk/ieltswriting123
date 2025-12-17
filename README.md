@@ -5,6 +5,7 @@ An advanced AI-powered web application for scoring IELTS Writing Task 1 & 2 essa
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Production](https://img.shields.io/badge/status-live-success)](https://vercel.com)
 
 ## ✨ Features
 
